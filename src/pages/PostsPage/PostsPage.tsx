@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { fetchPosts } from '../../store/post';
 import { selectPostIds } from '../../store/post/selectors';
-import Post from '../Post/Post';
+import Post from '../../components/Post/Post';
 
 function Posts() {
   const posts = useAppSelector((state) => selectPostIds(state));

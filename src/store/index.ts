@@ -1,11 +1,14 @@
 import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
 import loggerMiddleware from './middlewares/logger';
-// eslint-disable-next-line import/no-cycle
 import { postSlice } from './post';
+import { albumSlice } from './album';
+import { photoSlice } from './photo';
 
 const rootReducer = combineReducers({
   post: postSlice.reducer,
+  album: albumSlice.reducer,
+  photo: photoSlice.reducer,
 });
 
 export const store = configureStore({
