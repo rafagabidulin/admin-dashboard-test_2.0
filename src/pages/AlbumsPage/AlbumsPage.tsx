@@ -14,12 +14,11 @@ function AlbumsPage() {
 
   useEffect(() => {
     dispatch(fetchAlbums());
-    dispatch(fetchPhotos());
   }, [dispatch]);
 
   return (
     <div className='px-5 py-2'>
-      <h1 style={{ textAlign: 'center' }}>Albums</h1>
+      <h1 style={{ textAlign: 'center', borderBottom: 'solid 2px #4682B4' }}>Albums</h1>
       <Row xs={1} md={4} className='g-4 py-2 px-5'>
         {Object.values(albums).map(({ id, title }) => (
           <Col className='mt-5' key={id}>

@@ -1,4 +1,5 @@
 import { RootState } from '..';
+import LoadingStatuses from '../../constants/loadingStatuses';
 
 export const selectTodoModuleState = (state: RootState) => state.todo;
 
@@ -20,3 +21,8 @@ export const selectCompletedTodo = (state: RootState) =>
 
 export const selectIncompletedTodo = (state: RootState) =>
   selectTodoArrayEntities(state).filter((todo) => !todo?.completed);
+
+export const selectTodosLoadingStatus = (state: RootState) => selectTodoModuleState(state).status;
+
+export const selectIsTodosLoading = (state: RootState) =>
+  selectTodosLoadingStatus(state) === LoadingStatuses.inProgress;

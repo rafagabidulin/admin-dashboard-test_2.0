@@ -14,3 +14,8 @@ export const selectPhotoById = (state: RootState, { photoId }: { photoId: string
 
 export const selectPhotoByAlbumId = (state: RootState, { albumId }: { albumId: string }) =>
   selectPhotoArrayEntities(state).filter((photo) => photo?.albumId === parseInt(albumId, 10));
+
+export const selectPostLoadingStatus = (state: RootState) => selectPostModuleState(state).status;
+
+export const selectIsPostLoading = (state: RootState) =>
+  selectPostLoadingStatus(state) === LoadingStatuses.inProgress;

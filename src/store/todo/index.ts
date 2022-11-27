@@ -2,18 +2,12 @@ import axios from 'axios';
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '..';
 import LoadingStatuses from '../../constants/loadingStatuses';
-import { selectUserTodosById } from '../user/selectors';
 import { selectTodoIds } from './selectors';
 
 export const fetchTodos = createAsyncThunk('todo/fetchTodos', async (_, thunkAPI) => {
-  // const userTodosIds = selectUserTodosById(thunkAPI.getState(), {
-  //   userId,
-  // });
-  // const todoIds = selectTodoIds(thunkAPI.getState());
-
-  // if (userTodosIds?.every((id) => todoIds.includes(id))) {
-  //   return;
-  // }
+  if (selectTodoIds(thunkAPI.getState() as RootState).length > 0) {
+    return thunkAPI.rejectWithValue(LoadingStatuses.earlyAdded);
+  }
 
   const response = await axios.get(`https://jsonplaceholder.typicode.com/todos`);
 

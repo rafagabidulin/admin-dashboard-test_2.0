@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+
+import { fetchTodos } from '../../store/todo';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { selectCompletedTodo, selectIncompletedTodo } from '../../store/todo/selectors';
-import { useAppSelector } from '../../hooks/hooks';
 
 function Todos() {
   const completedTodo = useAppSelector((state) => selectCompletedTodo(state));
   const incompletedTodo = useAppSelector((state) => selectIncompletedTodo(state));
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchTodos());
+  }, []);
 
   const taskStatus = {
     inProgress: {
@@ -58,7 +66,7 @@ function Todos() {
   const [columns, setColumns] = useState(taskStatus);
   return (
     <div className='px-5 py-2'>
-      <h1 style={{ textAlign: 'center' }}>Todos</h1>
+      <h1 style={{ textAlign: 'center', borderBottom: 'solid 2px #4682B4' }}>Todos</h1>
       <div style={{ display: 'flex', justifyContent: 'center', height: '100%' }}>
         <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
           {Object.entries(columns).map(([columnId, column]) => (
