@@ -9,12 +9,13 @@ module.exports = {
   mode: isDevelopment ? 'development' : 'production',
   entry: './src/index.tsx',
   devServer: {
-    hot: true,
+    historyApiFallback: true,
   },
   target: 'web',
   output: {
     filename: 'bundle.[hash].js',
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -25,7 +26,7 @@ module.exports = {
   ],
   resolve: {
     modules: [__dirname, 'src', 'node_modules'],
-    extensions: ['*', '.js', '.jsx', '.tsx', '.ts', '.css', '.scss'],
+    extensions: ['*', '.js', '.jsx', '.tsx', '.ts'],
   },
   module: {
     rules: [
