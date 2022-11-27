@@ -8,7 +8,7 @@ function Header() {
   return (
     <Navbar bg='primary' variant='dark'>
       <Container>
-        <NavLink className='nav-link' to='/'>
+        <NavLink className='navbar-brand' to='/'>
           Home
         </NavLink>
         <Nav className='me-auto'>
