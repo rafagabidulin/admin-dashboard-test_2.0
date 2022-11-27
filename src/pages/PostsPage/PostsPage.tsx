@@ -16,7 +16,8 @@ function Posts() {
   }, [dispatch]);
 
   return (
-    <div>
+    <div className='px-5 py-2'>
+      <h1 style={{ textAlign: 'center' }}>Posts</h1>
       <Link to='create'>
         <Button className='mt-2' variant='outline-primary' href='create'>
           Create new post

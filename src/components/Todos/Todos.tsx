@@ -57,8 +57,8 @@ function Todos() {
 
   const [columns, setColumns] = useState(taskStatus);
   return (
-    <div>
-      <h1 style={{ textAlign: 'center' }}>TodoList</h1>
+    <div className='px-5 py-2'>
+      <h1 style={{ textAlign: 'center' }}>Todos</h1>
       <div style={{ display: 'flex', justifyContent: 'center', height: '100%' }}>
         <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
           {Object.entries(columns).map(([columnId, column]) => (

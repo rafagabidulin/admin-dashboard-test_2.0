@@ -20,7 +20,7 @@ function Post({ postId }: { postId: string }) {
   };
 
   return (
-    <Card className='mb-5 mt-5'>
+    <Card className='mb-2 mt-3 py-2'>
       <Card.Header as='h5'>{post?.title}</Card.Header>
       <Card.Body>
         <Card.Text>{post?.body}</Card.Text>
