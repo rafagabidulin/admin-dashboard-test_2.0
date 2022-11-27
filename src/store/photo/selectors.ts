@@ -6,5 +6,11 @@ export const selectPhotoIds = (state: RootState) => selectPhotoModuleState(state
 
 export const selectPhotoEntities = (state: RootState) => selectPhotoModuleState(state).entities;
 
+export const selectPhotoArrayEntities = (state: RootState) =>
+  Object.values(selectPhotoEntities(state));
+
 export const selectPhotoById = (state: RootState, { photoId }: { photoId: string }) =>
   selectPhotoEntities(state)[photoId];
+
+export const selectPhotoByAlbumId = (state: RootState, { albumId }: { albumId: string }) =>
+  selectPhotoArrayEntities(state).filter((photo) => photo?.albumId === parseInt(albumId, 10));

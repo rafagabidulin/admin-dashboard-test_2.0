@@ -1,14 +1,29 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 
 function Header() {
   return (
-    <header>
-      <Link to='/'>Home</Link>
-      <Link to='/posts'>Posts</Link>
-      <Link to='/albums'>Albums</Link>
-      <Link to='/todos'>Todos</Link>
-    </header>
+    <Navbar bg='primary' variant='dark'>
+      <Container>
+        <NavLink className='nav-link' to='/'>
+          Home
+        </NavLink>
+        <Nav className='me-auto'>
+          <NavLink className='nav-link' to='/posts'>
+            Posts
+          </NavLink>
+          <NavLink className='nav-link' to='/albums'>
+            Albums
+          </NavLink>
+          <NavLink className='nav-link' to='/todos'>
+            Todos
+          </NavLink>
+        </Nav>
+      </Container>
+    </Navbar>
   );
 }
 

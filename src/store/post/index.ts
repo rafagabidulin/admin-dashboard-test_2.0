@@ -1,4 +1,4 @@
-// import axios from 'axios';
+import axios from 'axios';
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '..';
 import LoadingStatuses from '../../constants/loadingStatuses';
@@ -9,8 +9,35 @@ export const fetchPosts = createAsyncThunk('post/fetchPosts', async (_, thunkAPI
     return thunkAPI.rejectWithValue(LoadingStatuses.earlyAdded);
   }
 
-  const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-  return response.json();
+  const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
+  return response.data;
+});
+
+export const createPost = createAsyncThunk('post/createPost', async ({ title, body, userId }) => {
+  const response = await axios.post('https://jsonplaceholder.typicode.com/posts', {
+    title,
+    body,
+    userId,
+  });
+  return response.data;
+});
+
+export const updatePost = createAsyncThunk(
+  'post/updatePost',
+  async ({ title, body, id, userId }) => {
+    const response = await axios.put(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+      title,
+      body,
+      id,
+      userId,
+    });
+    return response.data;
+  }
+);
+
+export const deletePost = createAsyncThunk('post/deletePost', async ({ postId }) => {
+  await axios.delete<PostItem>(`https://jsonplaceholder.typicode.com/posts/${postId}`);
+  return postId;
 });
 
 interface PostState {
@@ -20,13 +47,14 @@ interface PostState {
   status: string;
   title: string;
   body: string;
+  comments: [];
 }
 
-const PostEntityAdapter = createEntityAdapter<PostState>();
+const postEntityAdapter = createEntityAdapter<PostState>();
 
 export const postSlice = createSlice({
   name: 'post',
-  initialState: PostEntityAdapter.getInitialState({
+  initialState: postEntityAdapter.getInitialState({
     status: LoadingStatuses.idle,
   }),
   reducers: {},
@@ -36,11 +64,42 @@ export const postSlice = createSlice({
         state.status = LoadingStatuses.inProgress;
       })
       .addCase(fetchPosts.fulfilled, (state, { payload }) => {
-        PostEntityAdapter.addMany(state, payload);
+        postEntityAdapter.addMany(state, payload);
         state.status = LoadingStatuses.success;
       })
       .addCase(fetchPosts.rejected, (state, { payload }) => {
         state.status =
           payload === LoadingStatuses.earlyAdded ? LoadingStatuses.success : LoadingStatuses.failed;
+      })
+      .addCase(createPost.pending, (state) => {
+        state.status = LoadingStatuses.inProgress;
+      })
+      .addCase(createPost.fulfilled, (state, { payload }) => {
+        postEntityAdapter.addMany(state, payload);
+        state.status = LoadingStatuses.success;
+      })
+      .addCase(createPost.rejected, (state, { payload }) => {
+        state.status =
+          payload === LoadingStatuses.earlyAdded ? LoadingStatuses.success : LoadingStatuses.failed;
+      })
+      .addCase(updatePost.pending, (state) => {
+        state.status = LoadingStatuses.inProgress;
+      })
+      .addCase(updatePost.fulfilled, (state, { payload }) => {
+        postEntityAdapter.setOne(state, payload);
+        state.status = LoadingStatuses.success;
+      })
+      .addCase(updatePost.rejected, (state) => {
+        state.status = LoadingStatuses.failed;
+      })
+      .addCase(deletePost.pending, (state) => {
+        state.status = LoadingStatuses.inProgress;
+      })
+      .addCase(deletePost.fulfilled, (state, { payload }) => {
+        postEntityAdapter.removeOne(state, payload);
+        state.status = LoadingStatuses.success;
+      })
+      .addCase(deletePost.rejected, (state) => {
+        state.status = LoadingStatuses.failed;
       }),
 });

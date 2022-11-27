@@ -1,5 +1,6 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store';
 
@@ -9,6 +10,8 @@ import AlbumsPage from './pages/AlbumsPage/AlbumsPage';
 import TodosPage from './pages/TodosPage/TodosPage';
 import HomePage from './pages/HomePage/HomePage';
 import Album from './components/Album/Album';
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
+import EditCreatePostForm from './components/EditCreatePostForm/EditCreatePostForm';
 
 function App() {
   return (
@@ -19,10 +22,12 @@ function App() {
             <Routes>
               <Route path='/' element={<HomePage />} />
               <Route path='/posts' element={<PostsPage />} />
-              <Route path='/albums' element={<AlbumsPage />}>
-                <Route path=':albumId' element={<Album />} />
-              </Route>
+              <Route path='/posts/create' element={<EditCreatePostForm />} />
+              <Route path='/posts/edit/:postId' element={<EditCreatePostForm />} />
+              <Route path='/albums' element={<AlbumsPage />} />
+              <Route path='/albums/:albumId' element={<Album />} />
               <Route path='/todos' element={<TodosPage />} />
+              <Route path='*' element={<NotFoundPage />} />
             </Routes>
           </Layout>
         </Provider>

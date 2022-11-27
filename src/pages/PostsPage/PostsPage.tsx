@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { fetchPosts } from '../../store/post';
 import { selectPostIds } from '../../store/post/selectors';
 import Post from '../../components/Post/Post';
+import { fetchComments } from '../../store/comment';
 
 function Posts() {
   const posts = useAppSelector((state) => selectPostIds(state));
@@ -14,8 +17,13 @@ function Posts() {
 
   return (
     <div>
+      <Link to='create'>
+        <Button className='mt-2' variant='outline-primary' href='create'>
+          Create new post
+        </Button>
+      </Link>
       {posts.map((id) => (
-        <Post id={id} key={id} />
+        <Post postId={id} key={id} />
       ))}
     </div>
   );

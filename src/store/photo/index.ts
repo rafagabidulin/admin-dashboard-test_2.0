@@ -1,16 +1,18 @@
-// import axios from 'axios';
+import axios from 'axios';
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '..';
 import LoadingStatuses from '../../constants/loadingStatuses';
 import { selectPhotoIds } from './selectors';
 
-export const fetchPhotos = createAsyncThunk('photo/fetchPhotos', async ({ albumId }, thunkAPI) => {
-  //   const albumPhotoIds = selectAlbumPhotosById(thunkAPI.getState(), {
-  //     albumId,
-  //   });
+export const fetchPhotos = createAsyncThunk('photo/fetchPhotos', async (albumId, thunkAPI) => {
+  // if (selectPhotoIds(thunkAPI.getState() as RootState).length > 0) {
+  //   return thunkAPI.rejectWithValue(LoadingStatuses.earlyAdded);
+  // }
 
-  const response = await fetch(`https://jsonplaceholder.typicode.com/photos/?albumId=${albumId}`);
-  return response.json();
+  const response = await axios.get(
+    `https://jsonplaceholder.typicode.com/photos?albumId=${albumId}`
+  );
+  return response.data;
 });
 
 interface PhotoState {

@@ -1,17 +1,30 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/hooks';
-import { selectAlbumById } from '../../store/album/selectors';
-import Photos from '../Photos/Photos';
+import React, { useEffect } from 'react';
+import Carousel from 'react-bootstrap/Carousel';
+import { useParams } from 'react-router-dom';
+import { useAppSelector, useAppDispatch } from '../../hooks/hooks';
+import { selectPhotoByAlbumId } from '../../store/photo/selectors';
+import { fetchPhotos } from '../../store/photo';
 
-function Album({ id }: { id: string }) {
-  const album = useAppSelector((state) => selectAlbumById(state, { albumId: id }));
+function Album() {
+  const { albumId } = useParams();
+  const dispatch = useAppDispatch();
+  const photos = useAppSelector((state) => selectPhotoByAlbumId(state, { albumId }));
+
+  useEffect(() => {
+    dispatch(fetchPhotos(albumId));
+  }, [albumId]);
 
   return (
-    <Link to={id}>
-      <span>{album?.title}</span>
-      <Photos id={id} />
-    </Link>
+    <Carousel variant='dark'>
+      {photos?.map(({ id, title, url, thumbnailUrl }) => (
+        <Carousel.Item key={id}>
+          <img src={url} alt={thumbnailUrl} />
+          <Carousel.Caption>
+            <h5>{title}</h5>
+          </Carousel.Caption>
+        </Carousel.Item>
+      ))}
+    </Carousel>
   );
 }
 
