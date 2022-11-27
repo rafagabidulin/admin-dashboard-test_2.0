@@ -23,7 +23,7 @@ function App() {
               <Route path='/' element={<HomePage />} />
               <Route path='/posts' element={<PostsPage />} />
               <Route path='/posts/create' element={<EditCreatePostForm />} />
-              <Route path='/posts/edit/:postId' element={<EditCreatePostForm />} />
+              <Route path='/edit/:postId' element={<EditCreatePostForm />} />
               <Route path='/albums' element={<AlbumsPage />} />
               <Route path='/albums/:albumId' element={<Album />} />
               <Route path='/todos' element={<TodosPage />} />

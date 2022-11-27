@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -11,32 +11,30 @@ function EditCreatePostForm() {
   const navigate = useNavigate();
 
   const { postId } = useParams();
-  const post = useAppSelector((state: RootState) =>
-    selectPostById(state, { postId: Number(postId) })
-  );
+  const post = useAppSelector((state: RootState) => selectPostById(state, { postId }));
 
   const [form, setForm] = useState({
-    title: post?.title,
-    body: post?.body,
+    title: post?.title || '',
+    body: post?.body || '',
   });
 
-  const onChangePost = ({ target }) => {
+  const onChangeTitlePost = ({ target }) => {
     setForm({
       ...form,
-      [target.name]: target.value,
+      title: target.value,
+    });
+  };
+
+  const onChangeTextPost = ({ target }) => {
+    setForm({
+      ...form,
+      body: target.value,
     });
   };
 
   const onSubmitPost = () => {
     if (postId) {
-      dispatch(
-        updatePost(
-          Object.assign(form, {
-            id: Number(postId),
-            userId: post?.userId,
-          })
-        )
-      );
+      dispatch(updatePost({ ...form, id: Number(postId) }));
     } else {
       dispatch(createPost(form));
     }
@@ -51,7 +49,7 @@ function EditCreatePostForm() {
           type='text'
           name='title'
           placeholder='Enter title'
-          onChange={(event) => onChangePost(event)}
+          onChange={(event) => onChangeTitlePost(event)}
         />
       </Form.Group>
 
@@ -61,7 +59,7 @@ function EditCreatePostForm() {
           type='text'
           name='text'
           placeholder='Enter content'
-          onChange={(event) => onChangePost(event)}
+          onChange={(event) => onChangeTextPost(event)}
         />
       </Form.Group>
       <Button variant='primary' type='submit' onClick={onSubmitPost}>

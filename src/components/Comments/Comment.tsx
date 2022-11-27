@@ -3,7 +3,6 @@ import Card from 'react-bootstrap/Card';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { fetchComments } from '../../store/comment';
 import { selectCommentByPostId } from '../../store/comment/selectors';
-// import Comment from '../Comment/Comment';
 
 function Comments({ postId }) {
   const dispatch = useAppDispatch();
@@ -18,7 +17,7 @@ function Comments({ postId }) {
   return (
     <div>
       {Object.values(comments)?.map(({ id, name, email, body }) => (
-        <Card className='mb-2'>
+        <Card className='mb-2' key={id}>
           <Card.Header>{name}</Card.Header>
           <Card.Body>
             <blockquote className='blockquote mb-0'>

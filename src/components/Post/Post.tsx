@@ -2,22 +2,24 @@ import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-
-import { useAppSelector } from '../../hooks/hooks';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { selectPostById } from '../../store/post/selectors';
 import Comments from '../Comments/Comment';
-import { useNavigate } from 'react-router-dom';
+import { deletePost } from '../../store/post';
 
 function Post({ postId }: { postId: string }) {
   const [show, setShow] = useState(false);
   const post = useAppSelector((state) => selectPostById(state, { postId }));
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleEditPost = () => {
-    navigate(`/edit/${postId}`);
+    navigate(`/edit/${String(postId)}`);
   };
+  const handleDeletePost = () => dispatch(deletePost({ postId }));
 
   return (
     <Card className='mb-2 mt-3 py-2'>
@@ -31,6 +33,7 @@ function Post({ postId }: { postId: string }) {
           <Button variant='outline-primary' onClick={handleEditPost}>
             Edit post
           </Button>
+          <Button onClick={handleDeletePost}>Delete</Button>
         </div>
         <Modal size='lg' show={show} onHide={handleClose} animation>
           <Modal.Header closeButton>

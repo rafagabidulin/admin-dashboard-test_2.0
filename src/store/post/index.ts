@@ -4,6 +4,16 @@ import { RootState } from '..';
 import LoadingStatuses from '../../constants/loadingStatuses';
 import { selectPostIds } from './selectors';
 
+interface PostState {
+  posts: [];
+  post?: [];
+  id: string;
+  status: string;
+  title: string;
+  body: string;
+  comments: [];
+}
+
 export const fetchPosts = createAsyncThunk('post/fetchPosts', async (_, thunkAPI) => {
   if (selectPostIds(thunkAPI.getState() as RootState).length > 0) {
     return thunkAPI.rejectWithValue(LoadingStatuses.earlyAdded);
@@ -13,14 +23,17 @@ export const fetchPosts = createAsyncThunk('post/fetchPosts', async (_, thunkAPI
   return response.data;
 });
 
-export const createPost = createAsyncThunk('post/createPost', async ({ title, body, userId }) => {
-  const response = await axios.post('https://jsonplaceholder.typicode.com/posts', {
-    title,
-    body,
-    userId,
-  });
-  return response.data;
-});
+export const createPost = createAsyncThunk(
+  'post/createPost',
+  async ({ title, body, userId = new Date() }) => {
+    const response = await axios.post('https://jsonplaceholder.typicode.com/posts', {
+      title,
+      body,
+      userId,
+    });
+    return response.data;
+  }
+);
 
 export const updatePost = createAsyncThunk(
   'post/updatePost',
@@ -36,19 +49,9 @@ export const updatePost = createAsyncThunk(
 );
 
 export const deletePost = createAsyncThunk('post/deletePost', async ({ postId }) => {
-  await axios.delete<PostItem>(`https://jsonplaceholder.typicode.com/posts/${postId}`);
-  return postId;
+  await axios.delete(`https://jsonplaceholder.typicode.com/posts/${postId}`);
+  return parseInt(postId, 10);
 });
-
-interface PostState {
-  posts: [];
-  post?: [];
-  id: string;
-  status: string;
-  title: string;
-  body: string;
-  comments: [];
-}
 
 const postEntityAdapter = createEntityAdapter<PostState>();
 

@@ -7,7 +7,7 @@ import { fetchPosts } from '../../store/post';
 import { selectPostIds, selectIsPostLoading } from '../../store/post/selectors';
 import Post from '../../components/Post/Post';
 
-function Posts() {
+function PostsPage() {
   const posts = useAppSelector((state) => selectPostIds(state));
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector((state) => selectIsPostLoading(state));
@@ -29,10 +29,10 @@ function Posts() {
         </Button>
       </Link>
       {posts.map((id) => (
-        <Post postId={id} key={id} />
+        <Post key={id} postId={id} />
       ))}
     </div>
   );
 }
 
-export default Posts;
+export default PostsPage;
