@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-
 import { fetchTodos } from '../../store/todo';
+
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { selectCompletedTodo, selectIncompletedTodo } from '../../store/todo/selectors';
 
@@ -9,11 +9,11 @@ function Todos() {
   const completedTodo = useAppSelector((state) => selectCompletedTodo(state));
   const incompletedTodo = useAppSelector((state) => selectIncompletedTodo(state));
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchTodos());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchTodos());
+  // }, []);
 
   const taskStatus = {
     inProgress: {
