@@ -37,7 +37,7 @@ function Post({ postId }: { postId: string }) {
             <Modal.Title>{post?.title}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <p>{post?.body}</p>
+            <p className='blockquote mb-3'>{post?.body}</p>
             <h4>Comments</h4>
             <Comments postId={post?.id} />
           </Modal.Body>
